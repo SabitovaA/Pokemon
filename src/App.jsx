@@ -1,39 +1,27 @@
-import React, { useState, useEffect } from "react";
 import "./App.css";
+import { useGetPokemonsQuery } from "./api/productApi";
 
-const App = () => {
-  const [pokemons, setPokemons] = useState([]);
-
-  useEffect(() => {
-    const fetchPokemons = async () => {
-      try {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon/");
-        const data = await response.json();
-
-        setPokemons(data.results);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchPokemons();
-  }, []);
-  console.log(pokemons);
+function App() {
+  const { data } = useGetPokemonsQuery();
+  console.log(data);
   return (
-    <div className="container">
-      <h1>Pokemons</h1>
-      <div className="box">
-        {pokemons.map((pokemon) => (
-          <div key={pokemon.name}>
-            <div className="cart">
-              <h2>{pokemon.name}</h2>
-              <img src={pokemon.url} alt="" />
-            </div>
+    <div className="box">
+      {data &&
+        data.results.map((pokemon) => (
+          <div className="cart" key={pokemon.name}>
+            <h3>{pokemon.name}</h3>
+            <img
+              style={{
+                backgroundImage: `url(${pokemon.url})`,
+                width: "100px",
+                height: "100px",
+              }}
+              alt={pokemon.name}
+            />
           </div>
         ))}
-      </div>
     </div>
   );
-};
+}
 
 export default App;

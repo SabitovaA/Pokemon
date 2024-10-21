@@ -12,4 +12,8 @@
   border: 1px solid black;
   border-radius: 10px;
   background-color: rgb(132, 192, 210);
+  background-image: url();
+}
+img {
+  width: 200px;
 }
